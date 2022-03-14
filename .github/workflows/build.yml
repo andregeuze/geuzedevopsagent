@@ -5,10 +5,9 @@ on:
     branches: [main]
 
 env:
-  ACR_USER: geuzecontainers
-  ACR_HOST: geuzecontainers.azurecr.io
+  DOCKER_HOST: ghcr.io
+  DOCKER_USER: andregeuze
   IMAGE_NAME: geuzedevopsagent
-  RESOURCE_GROUP: geuze-home
   
 jobs:
   build:
@@ -27,14 +26,14 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build . \
-            --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:latest \
-            --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:1.0-latest \
-            --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
+            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
+            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
+            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
 
       - name: Push image to Github Container Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u andregeuze --password-stdin
-          docker push --all-tags ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.DOCKER_HOST }} -u ${{ env.DOCKER_USER }} --password-stdin
+          docker push --all-tags ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
 
       # - name: Cleanup old images in ACR
       #   uses: Azure/cli@v1
