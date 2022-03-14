@@ -26,7 +26,7 @@ jobs:
           echo ${GITHUB_SHA}
       - name: Build the Docker image
         run: |
-          docker build . --file Bot/Dockerfile \
+          docker build . \
             --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:latest \
             --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:1.0-latest \
             --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
