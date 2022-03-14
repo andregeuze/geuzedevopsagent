@@ -34,19 +34,3 @@ jobs:
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.DOCKER_HOST }} -u ${{ env.DOCKER_USER }} --password-stdin
           docker push --all-tags ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
-
-      # - name: Cleanup old images in ACR
-      #   uses: Azure/cli@v1
-      #   continue-on-error: true
-      #   with:
-      #     azcliversion: 2.30.0
-      #     # Specify the script here
-      #     inlineScript: |
-      #       az login --service-principal -u "${{ secrets.AZURE_USER }}" -p "${{ secrets.AZURE_PASSWORD }}" -t "geuze.onmicrosoft.com"
-      #       az acr run --registry "${{ env.ACR_USER }}" --cmd "acr purge --filter '${{ env.IMAGE_NAME }}:.*-preview' --ago 24h" /dev/null
-
-      # - name: Push the Docker image to ACR
-      #   if: ${{ github.event_name == 'push' }} # Only do it when building on main merge
-      #   run: |
-      #     echo "${{ secrets.GEUZECONTAINERS_PASSWORD }}" | docker login -u "${{ env.ACR_USER }}" --password-stdin ${{ env.ACR_HOST }}
-      #     docker push --all-tags ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}
