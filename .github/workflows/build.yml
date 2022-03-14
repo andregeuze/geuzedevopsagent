@@ -1,0 +1,32 @@
+name: Geuze Bot
+
+on:
+  push:
+    branches: [main]
+
+env:
+  ACR_USER: geuzecontainers
+  ACR_HOST: geuzecontainers.azurecr.io
+  IMAGE_NAME: geuzedevopsagent
+  RESOURCE_GROUP: geuze-home
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: What is our purpose
+        run: |
+          echo ${{ github.workspace }}
+          echo ${{ github.ref }}
+          echo ${{ github.workflow }}
+          echo ${{ github.event_name }}
+          echo ${GITHUB_SHA}
+      - name: Build the Docker image
+        run: |
+          docker build . --file Bot/Dockerfile \
+            --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:latest \
+            --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:1.0-latest \
+            --tag ${{ env.ACR_HOST }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
