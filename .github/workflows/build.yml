@@ -34,10 +34,10 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build . \
-            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
-            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
-            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
+            --tag ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
+            --tag ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
+            --tag ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
 
       - name: Push image to Github Container Registry
         run: |
-          docker push --all-tags ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
+          docker push --all-tags ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
