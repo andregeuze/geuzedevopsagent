@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 env:
-  DOCKER_HOST: ghcr.io
+  REGISTRY: ghcr.io
   DOCKER_USER: andregeuze
   IMAGE_NAME: geuzedevopsagent
   
@@ -34,9 +34,9 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build . \
-            --tag ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
-            --tag ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
-            --tag ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
+            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
+            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
+            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
 
       - name: Push image to Github Container Registry
         run: |
