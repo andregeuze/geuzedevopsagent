@@ -1,4 +1,4 @@
-name: Geuze Bot
+name: Geuze Devops Agent
 
 on:
   push:
