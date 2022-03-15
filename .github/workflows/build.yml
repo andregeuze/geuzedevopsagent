@@ -23,14 +23,15 @@ jobs:
           echo ${{ github.workflow }}
           echo ${{ github.event_name }}
           echo ${GITHUB_SHA}
+
       - name: Build the Docker image
         run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.DOCKER_HOST }} -u ${{ env.DOCKER_USER }} --password-stdin
           docker build . \
-            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
-            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
-            --tag ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
+            --tag ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest \
+            --tag ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:1.0-latest \
+            --tag ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:$(date +'%Y%m%d.%H%M%S')-preview
 
       - name: Push image to Github Container Registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.DOCKER_HOST }} -u ${{ env.DOCKER_USER }} --password-stdin
           docker push --all-tags ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
