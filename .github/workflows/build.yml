@@ -40,4 +40,4 @@ jobs:
 
       - name: Push image to Github Container Registry
         run: |
-          docker push --all-tags ${{ env.DOCKER_HOST }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
+          docker push --all-tags ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}
